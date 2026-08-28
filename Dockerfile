@@ -56,7 +56,7 @@ FROM php:8.2-fpm
 
 # Instalar dependencias del sistema (solo las necesarias en runtime)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libzip4 \
+    libzip5 \
     libpng16-16 \
     libjpeg62-turbo \
     libfreetype6 \
