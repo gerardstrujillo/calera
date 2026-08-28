@@ -21,3 +21,11 @@ readme/
 # Screenshots - Mantener las capturas en docs/screenshots/
 # No ignorar: docs/screenshots/*.png
 # No ignorar: docs/screenshots/*.jpg
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Certificados SSL (excepto el de Aiven)
+*.pem
+!ca.pem
