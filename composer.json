@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "ext-gd": "*",
+        "ext-zip": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/flash": "3.2.1",
         "laravel/framework": "^9.19",
