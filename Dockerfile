@@ -60,18 +60,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng16-16 \
     libjpeg62-turbo \
     libfreetype6 \
-    nginx \
-    supervisor \
     curl \
-    default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar extensiones PHP
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-    pdo_mysql \
-    zip \
-    gd
+# Copiar extensiones PHP compiladas desde builder
+COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 
 # Configurar PHP-FPM para producción
 RUN echo "pm = dynamic" >> /usr/local/etc/php-fpm.conf \
@@ -82,15 +76,6 @@ RUN echo "pm = dynamic" >> /usr/local/etc/php-fpm.conf \
 
 # Copiar configuración de PHP
 COPY docker/php.ini /usr/local/etc/php/conf.d/app.ini
-
-# Configurar Nginx
-COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/default.conf /etc/nginx/sites-available/default
-RUN mkdir -p /etc/nginx/sites-enabled && \
-    ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
-# Configurar Supervisor
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Establecer directorio de trabajo
 WORKDIR /var/www/html
