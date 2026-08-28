@@ -32,7 +32,7 @@ COPY composer.json composer.lock ./
 COPY package.json package-lock.json ./
 
 # Instalar dependencias PHP
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction --no-progress --ignore-platform-reqs
 
 # Instalar Node.js para compilar assets
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
